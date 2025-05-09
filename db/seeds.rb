@@ -34,15 +34,15 @@ regular_users = []
 end
 
 # Create posts if they don't exist
-all_users = regular_users + [admin1, admin2]
+all_users = regular_users + [ admin1, admin2 ]
 
 30.times do |i|
   user = all_users.sample
   title = Faker::Lorem.sentence(word_count: 3, supplemental: true, random_words_to_add: 2)
-  
+
   # Only create if a post with this title doesn't exist for this user
   next if user.posts.exists?(title: title)
-  
+
   post = user.posts.create!(
     title: title,
     content: Faker::Lorem.paragraphs(number: rand(2..5)).join("\n\n")

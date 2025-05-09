@@ -11,7 +11,7 @@ module ActiveSupport
     fixtures :all
 
     # Add more helper methods to be used by all tests here...
-    
+
     # Helper for testing authorization
     def log_in_as(user)
       session[:user_id] = user.id
@@ -23,7 +23,7 @@ end
 module ActionDispatch
   class IntegrationTest
     # Log in as a particular user for controller/integration tests
-    def log_in_as(user, password: 'password123')
+    def log_in_as(user, password: "password123")
       post login_path, params: { email: user.email, password: password }
     end
   end

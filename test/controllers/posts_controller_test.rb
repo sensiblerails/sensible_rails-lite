@@ -18,7 +18,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     get new_post_url
     assert_response :success
   end
-  
+
   test "should redirect new when not logged in" do
     get new_post_url
     assert_redirected_to login_url
@@ -44,7 +44,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     get edit_post_url(@admin_post)
     assert_response :success
   end
-  
+
   test "should not get edit for other's post" do
     log_in_as(@regular)
     get edit_post_url(@admin_post)
@@ -58,7 +58,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     @admin_post.reload
     assert_equal "Updated title", @admin_post.title
   end
-  
+
   test "should not update other's post" do
     log_in_as(@regular)
     original_title = @admin_post.title
@@ -76,7 +76,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to posts_url
   end
-  
+
   test "should not destroy other's post" do
     log_in_as(@regular)
     assert_no_difference("Post.count") do

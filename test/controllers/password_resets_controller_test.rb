@@ -20,7 +20,7 @@ class PasswordResetsControllerTest < ActionDispatch::IntegrationTest
       reset_password_token: Digest::SHA256.hexdigest(token),
       reset_password_sent_at: Time.current
     )
-    
+
     get edit_password_reset_url(Digest::SHA256.hexdigest(token))
     assert_response :success
   end
@@ -34,12 +34,12 @@ class PasswordResetsControllerTest < ActionDispatch::IntegrationTest
       reset_password_token: digest,
       reset_password_sent_at: Time.current
     )
-    
-    patch password_reset_url(digest), params: { 
-      user: { 
-        password: 'newpassword', 
-        password_confirmation: 'newpassword' 
-      } 
+
+    patch password_reset_url(digest), params: {
+      user: {
+        password: "newpassword",
+        password_confirmation: "newpassword"
+      }
     }
     assert_redirected_to root_url
   end

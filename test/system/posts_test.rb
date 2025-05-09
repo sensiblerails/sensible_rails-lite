@@ -4,7 +4,7 @@ class PostsTest < ApplicationSystemTestCase
   setup do
     @post = posts(:admin_post)
     @user = users(:admin)
-    
+
     # Log in as admin user
     visit login_url
     fill_in "Email", with: @user.email
@@ -45,27 +45,27 @@ class PostsTest < ApplicationSystemTestCase
 
     assert_text "Post was successfully destroyed"
   end
-  
+
   test "users can only edit their own posts" do
     # Create a post as admin
     visit new_post_url
     fill_in "Title", with: "Admin's Post"
     fill_in "Content", with: "This post belongs to the admin."
     click_on "Create Post"
-    
+
     # Log out
     click_on "Logout"
-    
+
     # Log in as regular user
     visit login_url
     fill_in "Email", with: users(:regular).email
     fill_in "Password", with: "password123"
     click_on "Log In"
-    
+
     # Try to visit the edit page for admin's post
     visit posts_url
     click_on "Admin's Post"
-    
+
     # Edit link should not be visible
     assert_no_selector "a", text: "Edit Post"
   end

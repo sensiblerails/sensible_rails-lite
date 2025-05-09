@@ -54,7 +54,7 @@ Rails.application.configure do
 
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
-  
+
   # Use async adapter for Active Job in development for simplicity
   config.active_job.queue_adapter = :async
 
@@ -66,7 +66,7 @@ Rails.application.configure do
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
-  
+
   # Use Redis as the Action Cable backend for now
   # SolidCable configuration will be added when properly supported
   # config.action_cable.backend = :solid_cable

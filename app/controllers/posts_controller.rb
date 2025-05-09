@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
-  before_action :require_login, except: [:index, :show]
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_post, only: [:edit, :update, :destroy]
+  before_action :require_login, except: [ :index, :show ]
+  before_action :set_post, only: [ :show, :edit, :update, :destroy ]
+  before_action :authorize_post, only: [ :edit, :update, :destroy ]
 
   # GET /posts or /posts.json
   def index
@@ -30,7 +30,7 @@ class PostsController < ApplicationController
       if @post.save
         # Broadcast handled by model callbacks
         # Post broadcasts automatically via the model configuration
-        
+
         format.html { redirect_to @post, notice: "Post was successfully created." }
         format.json { render :show, status: :created, location: @post }
       else
@@ -73,7 +73,7 @@ class PostsController < ApplicationController
     def post_params
       params.require(:post).permit(:title, :content)
     end
-    
+
     # Authorization check
     def authorize_post
       unless current_user == @post.user || admin?

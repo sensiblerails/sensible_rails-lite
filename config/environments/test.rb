@@ -41,10 +41,10 @@ Rails.application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
-  
+
   # Use test adapter for Active Job in test environment
   config.active_job.queue_adapter = :test
-  
+
   # Use async adapter for Action Cable in test environment
   # SolidCable configuration will be added when properly supported
   # config.action_cable.backend = :solid_cable

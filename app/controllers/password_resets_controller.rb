@@ -1,14 +1,14 @@
 class PasswordResetsController < ApplicationController
-  before_action :get_user, only: [:edit, :update]
-  before_action :valid_user, only: [:edit, :update]
-  before_action :check_expiration, only: [:edit, :update]
-  
+  before_action :get_user, only: [ :edit, :update ]
+  before_action :valid_user, only: [ :edit, :update ]
+  before_action :check_expiration, only: [ :edit, :update ]
+
   def new
   end
 
   def create
     @user = User.find_by(email: params[:email].downcase)
-    
+
     if @user
       @user.create_reset_digest
       # Simulate sending an email (would use mailer in a real app)
@@ -39,24 +39,24 @@ class PasswordResetsController < ApplicationController
       render :edit, status: :unprocessable_entity
     end
   end
-  
+
   private
-  
+
   def user_params
     params.require(:user).permit(:password, :password_confirmation)
   end
-  
+
   def get_user
     @user = User.find_by(reset_password_token: params[:id])
   end
-  
+
   def valid_user
     unless @user && @user.reset_password_sent_at.present?
       flash[:alert] = "Invalid reset token."
       redirect_to root_path
     end
   end
-  
+
   def check_expiration
     if @user.password_reset_expired?
       flash[:alert] = "Password reset link has expired."
