@@ -28,8 +28,8 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
-        # Broadcast a notification
-        ActionCable.server.broadcast "posts", { message: "New post: #{@post.title} by #{@post.user.name}" }
+        # Broadcast handled by model callbacks
+        # Post broadcasts automatically via the model configuration
         
         format.html { redirect_to @post, notice: "Post was successfully created." }
         format.json { render :show, status: :created, location: @post }
