@@ -21,7 +21,8 @@ class UsersController < ApplicationController
     
     if @user.save
       session[:user_id] = @user.id
-      WelcomeEmailJob.perform_later(@user.id)
+      # We'll just log the welcome message instead of using a job
+      Rails.logger.info("Welcome email would be sent to #{@user.email}")
       flash[:notice] = "Welcome to Sensible Rails Lite!"
       redirect_to root_path
     else

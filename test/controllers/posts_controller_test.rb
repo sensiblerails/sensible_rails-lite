@@ -2,7 +2,10 @@ require "test_helper"
 
 class PostsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @post = posts(:one)
+    @admin = users(:admin)
+    @regular = users(:regular)
+    @admin_post = posts(:admin_post)
+    @regular_post = posts(:regular_post)
   end
 
   test "should get index" do
@@ -10,37 +13,74 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get new" do
+  test "should get new when logged in" do
+    log_in_as(@admin)
     get new_post_url
     assert_response :success
   end
+  
+  test "should redirect new when not logged in" do
+    get new_post_url
+    assert_redirected_to login_url
+  end
 
-  test "should create post" do
+  test "should create post when logged in" do
+    log_in_as(@admin)
     assert_difference("Post.count") do
-      post posts_url, params: { post: { content: @post.content, title: @post.title, user_id: @post.user_id } }
+      post posts_url, params: { post: { content: "Test content", title: "Test title" } }
     end
 
     assert_redirected_to post_url(Post.last)
+    assert_equal @admin.id, Post.last.user_id
   end
 
   test "should show post" do
-    get post_url(@post)
+    get post_url(@admin_post)
     assert_response :success
   end
 
-  test "should get edit" do
-    get edit_post_url(@post)
+  test "should get edit for own post" do
+    log_in_as(@admin)
+    get edit_post_url(@admin_post)
     assert_response :success
   end
-
-  test "should update post" do
-    patch post_url(@post), params: { post: { content: @post.content, title: @post.title, user_id: @post.user_id } }
-    assert_redirected_to post_url(@post)
+  
+  test "should not get edit for other's post" do
+    log_in_as(@regular)
+    get edit_post_url(@admin_post)
+    assert_redirected_to posts_url
   end
 
-  test "should destroy post" do
+  test "should update own post" do
+    log_in_as(@admin)
+    patch post_url(@admin_post), params: { post: { content: "Updated content", title: "Updated title" } }
+    assert_redirected_to post_url(@admin_post)
+    @admin_post.reload
+    assert_equal "Updated title", @admin_post.title
+  end
+  
+  test "should not update other's post" do
+    log_in_as(@regular)
+    original_title = @admin_post.title
+    patch post_url(@admin_post), params: { post: { content: "Should not update", title: "Should not update" } }
+    assert_redirected_to posts_url
+    @admin_post.reload
+    assert_equal original_title, @admin_post.title
+  end
+
+  test "should destroy own post" do
+    log_in_as(@admin)
     assert_difference("Post.count", -1) do
-      delete post_url(@post)
+      delete post_url(@admin_post)
+    end
+
+    assert_redirected_to posts_url
+  end
+  
+  test "should not destroy other's post" do
+    log_in_as(@regular)
+    assert_no_difference("Post.count") do
+      delete post_url(@admin_post)
     end
 
     assert_redirected_to posts_url

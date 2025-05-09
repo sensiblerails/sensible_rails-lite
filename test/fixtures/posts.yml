@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  title: MyString
-  content: MyText
-  user: one
+admin_post:
+  title: Post by Admin
+  content: This is a post created by the admin user.
+  user: admin
 
-two:
-  title: MyString
-  content: MyText
-  user: two
+regular_post:
+  title: Post by Regular User
+  content: This is a post created by a regular user.
+  user: regular
