@@ -107,18 +107,23 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: sensible_rails_lite_production
-    username: sensible_rails_lite
-    password: <%= ENV["SENSIBLE_RAILS_LITE_DATABASE_PASSWORD"] %>
+    host: <%= ENV["PGHOST"] %>
+    port: <%= ENV["PGPORT"] %>
+    database: <%= ENV["PGDATABASE"] %>
+    username: <%= ENV["PGUSER"] %>
+    password: <%= ENV["PGPASSWORD"] %>
   cache:
     <<: *primary_production
-    database: sensible_rails_lite_production_cache
+    database: <%= ENV["PGDATABASE"] %>_cache
     migrations_paths: db/cache_migrate
   queue:
     <<: *primary_production
-    database: sensible_rails_lite_production_queue
+    database: <%= ENV["PGDATABASE"] %>_queue
     migrations_paths: db/queue_migrate
   cable:
     <<: *primary_production
-    database: sensible_rails_lite_production_cable
+    database: <%= ENV["PGDATABASE"] %>_cable
     migrations_paths: db/cable_migrate
+
+
+
