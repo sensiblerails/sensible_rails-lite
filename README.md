@@ -17,14 +17,13 @@ A lean, modern template for experimenting with core Rails concepts and the lates
 - Ruby 3.4.1
 - Rails 8.0.2
 - PostgreSQL
-- Node.js (for Tailwind CSS processing)
 
 ## Setup Instructions
 
 ### 1. Clone the repository
 
 ```bash
-git clone [repository-url]
+git clone git@github.com:sensiblerails/sensible_rails-lite.git
 cd sensible_rails-lite
 ```
 
