@@ -107,24 +107,17 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    url: <%= ENV["DATABASE_URL"] %>
-    # host: <%= ENV["PGHOST"] %>
-    # port: <%= ENV["PGPORT"] %>
-    # database: <%= ENV["PGDATABASE"] %>
-    # username: <%= ENV["PGUSER"] %>
-    # password: <%= ENV["PGPASSWORD"] %>
+    # When running locally with railway run command, use this connection string
+    url: <%= ENV.fetch("RAILWAY_ENVIRONMENT", nil) ? ENV["DATABASE_URL"] : "postgres://postgres:miUKzKIRrXSbnMahfqosGwEUPGwMPwax@centerbeam.proxy.rlwy.net:44292/railway" %>
   cache:
     <<: *primary_production
-    url: <%= ENV["DATABASE_URL"] %>__cache
+    database: <%= ENV.fetch("PGDATABASE", "railway") %>_cache
     migrations_paths: db/cache_migrate
   queue:
     <<: *primary_production
-    url: <%= ENV["DATABASE_URL"] %>__queue
+    database: <%= ENV.fetch("PGDATABASE", "railway") %>_queue
     migrations_paths: db/queue_migrate
   cable:
     <<: *primary_production
-    url: <%= ENV["DATABASE_URL"] %>__cable
+    database: <%= ENV.fetch("PGDATABASE", "railway") %>_cable
     migrations_paths: db/cable_migrate
-
-
-
