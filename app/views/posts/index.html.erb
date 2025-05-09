@@ -8,6 +8,7 @@
     <% end %>
   </div>
 
+  <%= turbo_stream_from "posts" %>
   <div id="posts" class="space-y-4">
     <% if @posts.any? %>
       <div class="stream-items">
