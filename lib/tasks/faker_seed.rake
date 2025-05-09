@@ -1,4 +1,4 @@
-require 'faker'
+require "faker"
 
 namespace :db do
   desc "Seed database with Faker data while avoiding SolidQueue issues"
@@ -10,9 +10,9 @@ namespace :db do
         def broadcast_update_later; end
       end
     end
-    
+
     puts "Seeding database with Faker data..."
-    
+
     # Create admin users
     admin1 = User.find_or_create_by(email: "admin1@example.com") do |user|
       user.name = "Admin One"
@@ -45,16 +45,16 @@ namespace :db do
 
     # Reset and create posts with Faker content
     Post.where("title LIKE ?", "Sample Post%").destroy_all # Remove any previously generated sample posts
-    
+
     # Create posts
-    all_users = regular_users + [admin1, admin2]
+    all_users = regular_users + [ admin1, admin2 ]
     30.times do |i|
       user = all_users.sample
       title = Faker::Lorem.sentence(word_count: 3, supplemental: true, random_words_to_add: 2)
-      
+
       # Only create if a post with this title doesn't exist for this user
       next if user.posts.exists?(title: title)
-      
+
       # Use direct INSERT to bypass callbacks
       post = Post.new(
         title: title,
@@ -63,13 +63,13 @@ namespace :db do
         created_at: Time.now,
         updated_at: Time.now
       )
-      
+
       # Save without callbacks
       if post.save(validate: false)
         puts "Created post: #{post.title} by #{user.name}"
       end
     end
-    
+
     puts "\nSeeding completed! Created:"
     puts "- #{User.where(admin: true).count} admin users"
     puts "- #{User.where(admin: false).count} regular users"

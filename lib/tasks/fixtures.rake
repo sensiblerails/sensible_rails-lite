@@ -4,16 +4,16 @@ namespace :db do
     task load_production: :environment do
       # Temporarily disable database logging
       ActiveRecord::Base.logger = nil
-      
+
       # Get fixtures path
-      fixtures_path = Rails.root.join('test', 'fixtures')
-      
+      fixtures_path = Rails.root.join("test", "fixtures")
+
       # Load fixtures in correct order (users first, then posts)
       puts "Loading fixtures into the production database..."
-      
+
       # Specific order for loading fixtures
-      ordered_fixtures = ['users', 'posts']
-      
+      ordered_fixtures = [ "users", "posts" ]
+
       ordered_fixtures.each do |fixture_name|
         puts "Loading #{fixture_name} fixtures..."
         begin
@@ -23,9 +23,9 @@ namespace :db do
           puts "  ✗ Error loading #{fixture_name}: #{e.message}"
         end
       end
-      
+
       puts "Fixture loading completed!"
-      
+
       # Output summary
       puts "\nDatabase summary:"
       puts "- Users: #{User.count} (#{User.where(admin: true).count} admins)"
