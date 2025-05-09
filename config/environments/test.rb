@@ -45,8 +45,9 @@ Rails.application.configure do
   # Use SolidQueue as the Active Job backend
   config.active_job.queue_adapter = :solid_queue
   
-  # Use Solid as the Action Cable backend
-  config.action_cable.use_solid = true
+  # Use async adapter for Action Cable in test environment
+  # SolidCable configuration will be added when properly supported
+  # config.action_cable.backend = :solid_cable
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
