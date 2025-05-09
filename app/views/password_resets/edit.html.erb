@@ -1,0 +1,30 @@
+<div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
+  <h1 class="text-2xl font-bold mb-6 text-center">Reset Password</h1>
+  
+  <%= form_with(model: @user, url: password_reset_path(params[:id]), method: :patch) do |form| %>
+    <% if @user.errors.any? %>
+      <div class="bg-red-50 text-red-600 p-4 rounded mb-4">
+        <h2 class="text-lg font-semibold"><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+        <ul class="list-disc pl-5 mt-2">
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    
+    <div class="mb-4">
+      <%= form.label :password, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.password_field :password, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", required: true %>
+    </div>
+    
+    <div class="mb-6">
+      <%= form.label :password_confirmation, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.password_field :password_confirmation, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", required: true %>
+    </div>
+    
+    <div class="flex items-center justify-center">
+      <%= form.submit "Update Password", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+    </div>
+  <% end %>
+</div>

@@ -1,9 +1,11 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: %i[ show edit update destroy ]
+  before_action :require_login, except: [:index, :show]
+  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_post, only: [:edit, :update, :destroy]
 
   # GET /posts or /posts.json
   def index
-    @posts = Post.all
+    @posts = Post.includes(:user).order(created_at: :desc).all
   end
 
   # GET /posts/1 or /posts/1.json
@@ -22,9 +24,13 @@ class PostsController < ApplicationController
   # POST /posts or /posts.json
   def create
     @post = Post.new(post_params)
+    @post.user = current_user
 
     respond_to do |format|
       if @post.save
+        # Broadcast a notification
+        ActionCable.server.broadcast "posts", { message: "New post: #{@post.title} by #{@post.user.name}" }
+        
         format.html { redirect_to @post, notice: "Post was successfully created." }
         format.json { render :show, status: :created, location: @post }
       else
@@ -52,7 +58,7 @@ class PostsController < ApplicationController
     @post.destroy!
 
     respond_to do |format|
-      format.html { redirect_to posts_path, status: :see_other, notice: "Post was successfully destroyed." }
+      format.html { redirect_to posts_path, notice: "Post was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -60,11 +66,19 @@ class PostsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
-      @post = Post.find(params.expect(:id))
+      @post = Post.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.expect(post: [ :title, :content, :user_id ])
+      params.require(:post).permit(:title, :content)
+    end
+    
+    # Authorization check
+    def authorize_post
+      unless current_user == @post.user || admin?
+        flash[:alert] = "You are not authorized to perform this action."
+        redirect_to posts_path
+      end
     end
 end

@@ -20,7 +20,7 @@ Rails.application.configure do
 
   # Show full error reports.
   config.consider_all_requests_local = true
-  config.cache_store = :null_store
+  config.cache_store = :solid_cache_store
 
   # Render exception templates for rescuable exceptions and raise for other exceptions.
   config.action_dispatch.show_exceptions = :rescuable
@@ -41,6 +41,12 @@ Rails.application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
+  
+  # Use SolidQueue as the Active Job backend
+  config.active_job.queue_adapter = :solid_queue
+  
+  # Use Solid as the Action Cable backend
+  config.action_cable.use_solid = true
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
