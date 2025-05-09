@@ -108,22 +108,22 @@ production:
   primary: &primary_production
     <<: *default
     url: <%= ENV["DATABASE_URL"] %>
-    host: <%= ENV["PGHOST"] %>
-    port: <%= ENV["PGPORT"] %>
-    database: <%= ENV["PGDATABASE"] %>
-    username: <%= ENV["PGUSER"] %>
-    password: <%= ENV["PGPASSWORD"] %>
+    # host: <%= ENV["PGHOST"] %>
+    # port: <%= ENV["PGPORT"] %>
+    # database: <%= ENV["PGDATABASE"] %>
+    # username: <%= ENV["PGUSER"] %>
+    # password: <%= ENV["PGPASSWORD"] %>
   cache:
     <<: *primary_production
-    database: <%= ENV["PGDATABASE"] %>_cache
+    url: <%= ENV["DATABASE_URL"] %>__cache
     migrations_paths: db/cache_migrate
   queue:
     <<: *primary_production
-    database: <%= ENV["PGDATABASE"] %>_queue
+    url: <%= ENV["DATABASE_URL"] %>__queue
     migrations_paths: db/queue_migrate
   cable:
     <<: *primary_production
-    database: <%= ENV["PGDATABASE"] %>_cable
+    url: <%= ENV["DATABASE_URL"] %>__cable
     migrations_paths: db/cable_migrate
 
 
