@@ -1,6 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 # Post by admin users
+admin_post:
+  title: Admin's Important Post
+  content: This is a post created by the admin user. It contains important information about the application.
+  user: admin
+
 post1:
   title: Post by Admin 1
   content: This is a post created by the first admin user. It contains important information about the application.
@@ -12,6 +17,11 @@ post2:
   user: admin2
 
 # Posts by regular users
+regular_post:
+  title: Regular User's Post
+  content: This is a post created by a regular user.
+  user: regular
+
 post3:
   title: Hello from a regular user
   content: This is my first post on the platform. I'm excited to be part of this community.

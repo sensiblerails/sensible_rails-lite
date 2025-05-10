@@ -4,7 +4,7 @@
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-3xl font-bold">All Posts</h1>
     <% if logged_in? %>
-      <%= link_to "New Post", new_post_path, class: "bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded" %>
+      <%= link_to "New Post", new_post_path, id: "new-post-link", class: "bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded" %>
     <% end %>
   </div>
 

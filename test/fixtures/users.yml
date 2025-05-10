@@ -3,6 +3,12 @@
 # Note: passwords for fixtures are "password123"
 
 # Admin users
+admin:
+  name: Admin User
+  email: admin@example.com
+  password_digest: <%= BCrypt::Password.create('password123') %>
+  admin: true
+
 admin1:
   name: Admin One
   email: admin1@example.com
@@ -16,6 +22,12 @@ admin2:
   admin: true
 
 # Regular users
+regular:
+  name: Regular User
+  email: regular@example.com
+  password_digest: <%= BCrypt::Password.create('password123') %>
+  admin: false
+
 <% 15.times do |i| %>
 user<%= i+1 %>:
   name: <%= "User #{i+1}" %>

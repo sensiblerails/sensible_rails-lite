@@ -5,13 +5,14 @@ class AuthenticationTest < ApplicationSystemTestCase
     visit signup_url
 
     fill_in "Name", with: "New User"
-    fill_in "Email", with: "newuser@example.com"
+    fill_in "email", with: "newuser@example.com"
     fill_in "Password", with: "password"
     fill_in "Password confirmation", with: "password"
 
-    click_on "Sign Up"
+    # Use find and click to be more specific about which button to click
+    find('input[type="submit"][value="Sign Up"]').click
 
-    assert_text "Welcome to Sensible Rails Lite!"
+    assert_selector ".bg-green-100", text: "Welcome to Sensible Rails Lite!"
     assert_selector "nav", text: "New User"
   end
 
@@ -26,12 +27,12 @@ class AuthenticationTest < ApplicationSystemTestCase
 
     visit login_url
 
-    fill_in "Email", with: "testlogin@example.com"
-    fill_in "Password", with: "password"
+    fill_in "email", with: "testlogin@example.com"
+    fill_in "password", with: "password"
 
     click_on "Log In"
 
-    assert_text "Logged in successfully!"
+    assert_selector ".bg-green-100", text: "Logged in successfully!"
     assert_selector "nav", text: "Test User"
   end
 
@@ -45,14 +46,16 @@ class AuthenticationTest < ApplicationSystemTestCase
     )
 
     visit login_url
-    fill_in "Email", with: "logout@example.com"
-    fill_in "Password", with: "password"
+    fill_in "email", with: "logout@example.com"
+    fill_in "password", with: "password"
     click_on "Log In"
 
     # Now log out
-    click_on "Logout"
+    find_by_id("logout-button").click
 
-    assert_text "Logged out successfully!"
+    # Wait for the page to reload and check for the flash message
+    assert_current_path root_path
+    assert_selector ".bg-green-100", text: "Logged out successfully!"
     assert_selector "nav", text: "Sign Up"
   end
 end
